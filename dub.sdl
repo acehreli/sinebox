@@ -1,0 +1,7 @@
+name "sinebox"
+description "A simple vibe.d server application."
+authors "zafer"
+copyright "Copyright © 2016, zafer"
+license "proprietary"
+dependency "vibe-d" version="~>0.7.26"
+versions "VibeDefaultMain"
