@@ -1,0 +1,25 @@
+@media print {
+    h4 { font: 24pt Garamond, "Times New Roman", Times, serif; }
+    p { font: 12pt Garamond, "Times New Roman", Times, serif; }
+
+    #page-wrapper { width: 100%; margin: 0; float: none; }
+
+    body { visibility: hidden; }
+    #yazdir { visibility: visible; }
+    #yazdir { position: absolute; top: 0px; left: 0px; margin-top: -80px; }
+}
+.break { page-break-before: always; }
+
+/*
+@media print {
+  .visible-print  { display: inherit !important; }
+
+  .hidden-print   { display: none !important; }
+  h4, p { -family: Garamond, "Times New Roman", Times, serif; }
+  h4 { font: 24pt Garamond, "Times New Roman", Times, serif; }
+  p { font: 12pt Garamond, "Times New Roman", Times, serif; }
+
+  .navbar-default sidebar { display: none; }
+  .navbar navbar-default navbar-static-top { display: none; }
+}
+*/

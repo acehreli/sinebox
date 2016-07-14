@@ -1,0 +1,21 @@
+extends layout
+
+block body
+    .col-sm-10.col-md-10.col-lg-10.main
+        h2.sub-header Sinema Listesi
+        table.table.table-striped
+            thead
+                tr
+                    th ID
+                    th Adı
+                    th Yapım Yılı
+                    th Dili
+                    th RIP
+            tbody
+                - foreach (film; filmler)
+                    tr
+                        td !{ film.id }
+                        td !{ film.adi }
+                        td !{ film.yil }
+                        td !{ film.dil }
+                        td !{ film.rip }
