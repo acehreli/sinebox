@@ -5,6 +5,7 @@ block body
         .container-fluid
             h2.sub-header Sinema Listesi
             p Sistemde kayıtlı filmeleri bu listeden görebilirsiniz.
+            a(href="/video") Video Test
             - foreach (film; filmler)
                 .row
                     .col-sm-3(style="text-align:center; padding:30px 5px 5px 5px;")

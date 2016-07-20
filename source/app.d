@@ -14,6 +14,7 @@ shared static this()
     routers.registerWebInterface(new HomeServis());
     routers.registerWebInterface(new FilmServis());
     routers.get("*", serveStaticFiles("./public/"));
+    routers.get("*", serveStaticFiles("/home/zafer/Downloads/"));
 
     auto settings = new HTTPServerSettings;
     settings.port = 8080;

@@ -13,4 +13,10 @@ final class HomeServis
 
         render!("pano.dt", filmler);
     }
+
+    @path("/video")
+    void getVideo()
+    {
+        render!("video.dt");
+    }
 }
