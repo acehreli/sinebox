@@ -3,14 +3,16 @@ import vibe.http.router;
 import vibe.web.web;
 import vibe.core.log;
 
-import servis.home;
+import servis.homeservis;
+import servis.filmservis;
 
 shared static this()
 {
-	setLogLevel(LogLevel.info);
+    setLogLevel(LogLevel.info);
 
     URLRouter routers = new URLRouter;
-	routers.registerWebInterface(new Home());
+    routers.registerWebInterface(new HomeServis());
+    routers.registerWebInterface(new FilmServis());
     routers.get("*", serveStaticFiles("./public/"));
 
     auto settings = new HTTPServerSettings;
@@ -18,7 +20,7 @@ shared static this()
     settings.sessionStore = new MemorySessionStore();
     settings.bindAddresses = ["::1", "127.0.0.1"];
 
-	listenHTTP(settings, routers);
+    listenHTTP(settings, routers);
 
-	logInfo("Please open http://127.0.0.1:8080/ in your browser.");
+    logInfo("Please open http://127.0.0.1:8080/ in your browser.");
 }

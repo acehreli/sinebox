@@ -2,9 +2,27 @@ module model.film;
 
 struct Film
 {
-    long id;
-    string adi;
-    long yil;
-    string rip;
+    int id;
+    string orjinalAdi;
+    string turkceAdi;
+    string yil;
+    string format;
     string dil;
+    string tur;
+    string poster1;
+    string poster2;
 }
+
+
+
+/*
+    CREATE TABLE filmler (
+        id          INTEGER      PRIMARY KEY AUTOINCREMENT,
+        orjinal_adi STRING (250) NOT NULL,
+        turkce_adi  STRING (250) NOT NULL,
+        yil         STRING (10)  NOT NULL,
+        format      STRING (250) NOT NULL,
+        dil         STRING (250) NOT NULL,
+        tur         STRING (250) NOT NULL
+    );
+*/

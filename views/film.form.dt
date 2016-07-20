@@ -1,0 +1,53 @@
+extends layout
+
+block body
+    .col-sm-9.col-md-10.main
+        h2.sub-header Film Ekle
+
+        form(action="!{action}", method="post", enctype='multipart/form-data')
+            input(type="hidden", name="id", value="!{ film.id }")
+            .row
+                .col-sm-6.col-lg-6
+                    .form-group
+                        label.control-label(for='turkceAdi') Türkçe Adı:
+                        input.form-control(name="turkceAdi", placeholder='Türkçe Adı', type='text', value="!{film.turkceAdi}")
+
+                .col-sm-6.col-lg-6
+                    .form-group
+                        label.control-label(for='orjinalAdi') Orjinal Adı:
+                        input.form-control(name="orjinalAdi", placeholder='Orjinal Adı', type='text', value="!{film.orjinalAdi}")
+
+                .col-sm-6.col-lg-6
+                    .form-group
+                        label.control-label(for='yil') Yapım Yılı:
+                        input.form-control(name="yil", placeholder='Yapım Yılı', type='text', value="!{film.yil}")
+
+                .col-sm-6.col-lg-6
+                    .form-group
+                        label.control-label(for='format') Format:
+                        input.form-control(name="format", placeholder='Format', type='text', value="!{film.format}")
+
+                .col-sm-6.col-lg-6
+                    .form-group
+                        label.control-label(for='dil') Dili:
+                        input.form-control(name="dil", placeholder='Dili', type='text', value="!{film.dil}")
+
+                .col-sm-6.col-lg-6
+                    .form-group
+                        label.control-label(for='tur') Türü:
+                        input.form-control(name="tur", placeholder='Türü', type='text', value="!{film.tur}")
+
+
+            h2.sub-header Posterler
+            .row
+                .col-sm-6.col-lg-6
+                    .form-group
+                        label.control-label(for='poster1') Poster-1:
+                        input.form-control(name="poster1", type='file')
+
+                .col-sm-6.col-lg-6
+                    .form-group
+                        label.control-label(for='poster2') Poster-2:
+                        input.form-control(name="poster2", type='file')
+
+            input.btn.btn-primary(value='Kaydet', type="submit")

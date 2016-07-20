@@ -3,7 +3,7 @@ html(lang='tr')
     head
         meta(http-equiv='content-type', content='text/html; charset=UTF-8')
         meta(charset='utf-8')
-        title Nakil - Sevkiyat Takip Sistemi
+        title SineBox - Sinema Arşiv Sistemi
         meta(name='generator', content='Bootply')
         meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
         //if lt IE 9
@@ -26,18 +26,22 @@ html(lang='tr')
                         span.icon-bar
                         span.icon-bar
 
-                    a.navbar-brand(href='/') 
+                    a.navbar-brand(href='/')
                         | SineBox
 
                 #nav-collapse.collapse.navbar-collapse
                     - string rota = req.requestURL;
                         ul.nav.navbar-nav.navbar-right
                             li(class='!{ rota == "/" ? "active" : ""}')
-                                a(href='/') Liste
+                                a(href='/') Pano
+                            li(class='!{ rota == "/film/liste" ? "active" : ""}')
+                                a(href='/film/liste') Liste
+                            li(class='!{ rota == "/film/form/0" ? "active" : ""}')
+                                a(href='/film/form/0') Kayıt
 
         div(class="container-fluid")
             block body
-		
+
         br
         script(src='/js/site.js')
         div(id="footer")
