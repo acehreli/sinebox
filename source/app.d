@@ -19,7 +19,7 @@ shared static this()
     auto settings = new HTTPServerSettings;
     settings.port = 8080;
     settings.sessionStore = new MemorySessionStore();
-    settings.bindAddresses = ["::1", "127.0.0.1"];
+    settings.bindAddresses = ["::1", "127.0.0.1", "192.168.1.55"];
 
     listenHTTP(settings, routers);
 

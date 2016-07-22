@@ -42,6 +42,8 @@ final class FilmServis
     @path("/film/ekle")
     void postEkle(HTTPServerRequest req)
     {
+        string[] posterler = posterYukle(req);
+
         Film f;
         f.orjinalAdi = req.form["orjinalAdi"];
         f.turkceAdi = req.form["turkceAdi"];
@@ -49,6 +51,8 @@ final class FilmServis
         f.format = req.form["format"];
         f.dil = req.form["dil"];
         f.tur = req.form["tur"];
+        f.poster1 = posterler.length == 1 ? posterler[0] : "bos.png";
+        f.poster2 = posterler.length == 2 ? posterler[1] : "bos.png";
 
         DataServis ds = new DataServis();
         ds.ekle(f);
@@ -71,8 +75,6 @@ final class FilmServis
         f.tur = req.form["tur"];
         f.poster1 = posterler.length == 1 ? posterler[0] : "bos.png";
         f.poster2 = posterler.length == 2 ? posterler[1] : "bos.png";
-
-        logInfo("poster1: " ~ f.poster1);
 
         DataServis ds = new DataServis();
         ds.duzenle(f);

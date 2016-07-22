@@ -28,4 +28,3 @@ block body
                             tr
                                 td Türü:
                                 td !{ film.tur }
-                br
