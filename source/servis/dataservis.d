@@ -20,8 +20,8 @@ final class DataServis
 
     public void ekle(Film film)
     {
-        string ekle = "INSERT INTO filmler (orjinal_adi,turkce_adi,yil,format,dil,tur,poster1,poster2) "~
-                      "VALUES (:orjinal_adi,:turkce_adi,:yil,:format,:dil,:tur,:poster1,:poster2)";
+        string ekle = "INSERT INTO filmler (orjinal_adi,turkce_adi,yil,format,dil,tur,poster,poster_data) "~
+                      "VALUES (:orjinal_adi,:turkce_adi,:yil,:format,:dil,:tur,:poster,:poster_data)";
 
         Statement stat = db.prepare(ekle);
         stat.bind(":orjinal_adi", film.orjinalAdi);
@@ -30,8 +30,8 @@ final class DataServis
         stat.bind(":format", film.format);
         stat.bind(":dil", film.dil);
         stat.bind(":tur", film.tur);
-        stat.bind(":poster1", film.poster1);
-        stat.bind(":poster2", film.poster2);
+        stat.bind(":poster", film.poster);
+        stat.bind(":poster_data", film.posterData);
 
         stat.execute();
         stat.reset();
@@ -52,8 +52,7 @@ final class DataServis
             f.format = film["format"].as!string;
             f.dil = film["dil"].as!string;
             f.tur = film["tur"].as!string;
-            f.poster1 = film["poster1"].as!string;
-            f.poster2 = film["poster2"].as!string;
+            f.poster = film["poster"].as!string;
             liste ~= f;
         }
 
@@ -93,8 +92,8 @@ final class DataServis
         stat.bind(":dil", film.dil);
         stat.bind(":tur", film.tur);
         stat.bind(":id", film.id);
-        stat.bind(":poster1", film.poster1);
-        stat.bind(":poster2", film.poster2);
+        stat.bind(":poster", film.poster);
+        stat.bind(":poster_data", film.posterData);
 
         stat.execute();
         stat.reset();

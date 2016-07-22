@@ -11,7 +11,7 @@ import vibe.core.file;
 import vibe.core.log;
 
 import servis.dataservis;
-
+import std.stdio;
 final class FilmServis
 {
 
@@ -42,6 +42,7 @@ final class FilmServis
     @path("/film/ekle")
     void postEkle(HTTPServerRequest req)
     {
+        writefln("======================= %s ===============", req.files.get("poster").filename);
         string[] posterler = posterYukle(req);
 
         Film f;
@@ -51,9 +52,18 @@ final class FilmServis
         f.format = req.form["format"];
         f.dil = req.form["dil"];
         f.tur = req.form["tur"];
-        f.poster1 = posterler.length == 1 ? posterler[0] : "bos.png";
-        f.poster2 = posterler.length == 2 ? posterler[1] : "bos.png";
-
+        f.poster = posterler.length == 1 ? posterler[0] : "bos.png";
+        //f.poster_data = cast(ubyte[]) read(
+        /*
+        string dosyaYolu() {
+            foreach (dosya; req.files)
+            {
+                return dosya.filename.toString();
+            }
+            return "";
+        }
+        */
+        writefln("======================= %s ===============", req.files.get("poster"));
         DataServis ds = new DataServis();
         ds.ekle(f);
 
@@ -73,8 +83,7 @@ final class FilmServis
         f.format = req.form["format"];
         f.dil = req.form["dil"];
         f.tur = req.form["tur"];
-        f.poster1 = posterler.length == 1 ? posterler[0] : "bos.png";
-        f.poster2 = posterler.length == 2 ? posterler[1] : "bos.png";
+        f.poster = posterler.length == 1 ? posterler[0] : "bos.png";
 
         DataServis ds = new DataServis();
         ds.duzenle(f);

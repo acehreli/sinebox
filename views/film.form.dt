@@ -42,12 +42,7 @@ block body
             .row
                 .col-sm-6.col-lg-6
                     .form-group
-                        label.control-label(for='poster1') Poster-1:
-                        input.form-control(name="poster1", type='file')
-
-                .col-sm-6.col-lg-6
-                    .form-group
-                        label.control-label(for='poster2') Poster-2:
-                        input.form-control(name="poster2", type='file')
+                        label.control-label(for='poster') Poster:
+                        input.form-control(name="poster", type='file')
 
             input.btn.btn-primary(value='Kaydet', type="submit")

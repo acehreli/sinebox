@@ -9,7 +9,7 @@ block body
             - foreach (film; filmler)
                 .row
                     .col-sm-3(style="text-align:center; padding:30px 5px 5px 5px;")
-                        img(src="/resim/!{ film.poster1 }", width="140", height="200")
+                        img(src="/resim/!{ film.poster }", width="140", height="200")
                     .col-sm-9(style="padding:5px;")
                         h2 !{ film.turkceAdi }
                         table.table

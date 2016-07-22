@@ -9,8 +9,8 @@ struct Film
     string format;
     string dil;
     string tur;
-    string poster1;
-    string poster2;
+    string poster;
+    ubyte[] posterData;
 }
 
 
