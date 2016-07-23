@@ -20,8 +20,8 @@ final class DataServis
 
     public void ekle(Film film)
     {
-        string ekle = "INSERT INTO filmler (orjinal_adi,turkce_adi,yil,format,dil,tur,poster,poster_data) "~
-                      "VALUES (:orjinal_adi,:turkce_adi,:yil,:format,:dil,:tur,:poster,:poster_data)";
+        string ekle = "INSERT INTO filmler (orjinal_adi,turkce_adi,yil,format,dil,tur,poster) "~
+                      "VALUES (:orjinal_adi,:turkce_adi,:yil,:format,:dil,:tur,:poster)";
 
         Statement stat = db.prepare(ekle);
         stat.bind(":orjinal_adi", film.orjinalAdi);
@@ -31,7 +31,6 @@ final class DataServis
         stat.bind(":dil", film.dil);
         stat.bind(":tur", film.tur);
         stat.bind(":poster", film.poster);
-        stat.bind(":poster_data", film.posterData);
 
         stat.execute();
         stat.reset();
@@ -73,6 +72,7 @@ final class DataServis
             f.format = film["format"].as!string;
             f.dil = film["dil"].as!string;
             f.tur = film["tur"].as!string;
+            f.poster = film["poster"].as!string;
         }
 
         return f;
@@ -81,7 +81,7 @@ final class DataServis
     public void duzenle(Film film)
     {
         string duzenle = "UPDATE filmler SET orjinal_adi=:orjinal_adi,turkce_adi=:turkce_adi,"~
-                         "yil=:yil,format=:format,dil=:dil,tur=:tur,poster=:poster,poster_data=:poster_data "~
+                         "yil=:yil,format=:format,dil=:dil,tur=:tur,poster=:poster "~
                          "WHERE id = :id";
 
         Statement stat = db.prepare(duzenle);
@@ -93,7 +93,6 @@ final class DataServis
         stat.bind(":tur", film.tur);
         stat.bind(":id", film.id);
         stat.bind(":poster", film.poster);
-        stat.bind(":poster_data", film.posterData);
 
         stat.execute();
         stat.reset();
