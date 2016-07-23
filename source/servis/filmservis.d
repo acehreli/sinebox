@@ -42,8 +42,8 @@ final class FilmServis
     @path("/film/ekle")
     void postEkle(HTTPServerRequest req)
     {
-        writefln("======================= %s ===============", req.files.get("poster").filename);
-        string[] posterler = posterYukle(req);
+        string dosyaAdi;
+        ubyte[] posterData = posterYukle(req, dosyaAdi);
 
         Film f;
         f.orjinalAdi = req.form["orjinalAdi"];
@@ -52,8 +52,9 @@ final class FilmServis
         f.format = req.form["format"];
         f.dil = req.form["dil"];
         f.tur = req.form["tur"];
-        f.poster = posterler.length == 1 ? posterler[0] : "bos.png";
-        //f.poster_data = cast(ubyte[]) read(
+        f.poster = dosyaAdi;
+        f.posterData = posterData;
+
         /*
         string dosyaYolu() {
             foreach (dosya; req.files)
@@ -73,7 +74,8 @@ final class FilmServis
     @path("/film/duzenle")
     void postDuzenle(HTTPServerRequest req)
     {
-        string[] posterler = posterYukle(req);
+        string dosyaAdi;
+        ubyte[] posterData = posterYukle(req, dosyaAdi);
 
         Film f;
         f.id = to!int(req.form["id"]);
@@ -83,7 +85,7 @@ final class FilmServis
         f.format = req.form["format"];
         f.dil = req.form["dil"];
         f.tur = req.form["tur"];
-        f.poster = posterler.length == 1 ? posterler[0] : "bos.png";
+        f.poster = dosyaAdi;
 
         DataServis ds = new DataServis();
         ds.duzenle(f);
@@ -101,21 +103,23 @@ final class FilmServis
         redirect("/film/liste");
     }
 
-    private string[] posterYukle(HTTPServerRequest req)
+    private ubyte[] posterYukle(HTTPServerRequest req, out string posterAdi)
     {
         string resimKlasor = "./public/resim";
         if (!existsFile(resimKlasor)) createDirectory(resimKlasor);
-
-        string[] resimler;
+        
+        ubyte[] posterData;
         foreach (resim; req.files)
         {
             string numara = std.conv.to!string(uniform(1000, 9999));
             string uzanti = extension(resim.filename.toString());
             Path resimAdresi = Path(resimKlasor~ "/poster_" ~ numara ~ uzanti);
             moveFile(resim.tempPath, resimAdresi, true);
-            resimler ~= "poster_" ~ numara ~ uzanti;
+
+            posterAdi = "poster_" ~ numara ~ uzanti;
+            posterData = cast(ubyte[]) read(resimAdresi.toString());
         }
 
-        return resimler;
+        return posterData;
     }
 }

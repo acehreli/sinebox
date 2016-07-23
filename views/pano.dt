@@ -10,6 +10,8 @@ block body
                 .row
                     .col-sm-3(style="text-align:center; padding:30px 5px 5px 5px;")
                         img(src="/resim/!{ film.poster }", width="140", height="200")
+                        br
+                        img(src="data:image/jpeg;!{ std.base64.Base64.decode(cast(string)film.posterData) }", width="140", height="200")
                     .col-sm-9(style="padding:5px;")
                         h2 !{ film.turkceAdi }
                         table.table

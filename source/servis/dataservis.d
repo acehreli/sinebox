@@ -81,7 +81,7 @@ final class DataServis
     public void duzenle(Film film)
     {
         string duzenle = "UPDATE filmler SET orjinal_adi=:orjinal_adi,turkce_adi=:turkce_adi,"~
-                         "yil=:yil,format=:format,dil=:dil,tur=:tur,poster1=:poster1,poster2=:poster2 "~
+                         "yil=:yil,format=:format,dil=:dil,tur=:tur,poster=:poster,poster_data=:poster_data "~
                          "WHERE id = :id";
 
         Statement stat = db.prepare(duzenle);
