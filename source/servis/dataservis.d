@@ -20,8 +20,8 @@ final class DataServis
 
     public void ekle(Film film)
     {
-        string ekle = "INSERT INTO filmler (orjinal_adi,turkce_adi,yil,format,dil,tur,poster) "~
-                      "VALUES (:orjinal_adi,:turkce_adi,:yil,:format,:dil,:tur,:poster)";
+        string ekle = "INSERT INTO filmler (orjinal_adi,turkce_adi,yil,format,dil,tur,poster,konu) "~
+                      "VALUES (:orjinal_adi,:turkce_adi,:yil,:format,:dil,:tur,:poster,:konu)";
 
         Statement stat = db.prepare(ekle);
         stat.bind(":orjinal_adi", film.orjinalAdi);
@@ -31,6 +31,7 @@ final class DataServis
         stat.bind(":dil", film.dil);
         stat.bind(":tur", film.tur);
         stat.bind(":poster", film.poster);
+        stat.bind(":konu", film.konu);
 
         stat.execute();
         stat.reset();
@@ -52,6 +53,7 @@ final class DataServis
             f.dil = film["dil"].as!string;
             f.tur = film["tur"].as!string;
             f.poster = film["poster"].as!string;
+            f.konu = film["konu"].as!string;
             liste ~= f;
         }
 
@@ -73,6 +75,7 @@ final class DataServis
             f.dil = film["dil"].as!string;
             f.tur = film["tur"].as!string;
             f.poster = film["poster"].as!string;
+            f.konu = film["konu"].as!string;
         }
 
         return f;
@@ -81,7 +84,7 @@ final class DataServis
     public void duzenle(Film film)
     {
         string duzenle = "UPDATE filmler SET orjinal_adi=:orjinal_adi,turkce_adi=:turkce_adi,"~
-                         "yil=:yil,format=:format,dil=:dil,tur=:tur,poster=:poster "~
+                         "yil=:yil,format=:format,dil=:dil,tur=:tur,poster=:poster,konu=:konu "~
                          "WHERE id = :id";
 
         Statement stat = db.prepare(duzenle);
@@ -93,6 +96,7 @@ final class DataServis
         stat.bind(":tur", film.tur);
         stat.bind(":id", film.id);
         stat.bind(":poster", film.poster);
+        stat.bind(":konu", film.konu);
 
         stat.execute();
         stat.reset();

@@ -54,6 +54,7 @@ final class FilmServis
         f.dil = req.form["dil"];
         f.tur = req.form["tur"];
         f.poster = dosyaAdi;
+        f.konu = req.form["konu"];
 
         DataServis ds = new DataServis();
         ds.ekle(f);
@@ -65,6 +66,7 @@ final class FilmServis
     void postDuzenle(HTTPServerRequest req)
     {
         string dosyaAdi = posterYukle(req);
+        if (dosyaAdi == "") dosyaAdi = req.form["mevcutPoster"];
 
         Film f;
         f.id = to!int(req.form["id"]);
@@ -75,6 +77,7 @@ final class FilmServis
         f.dil = req.form["dil"];
         f.tur = req.form["tur"];
         f.poster = dosyaAdi;
+        f.konu = req.form["konu"];
 
         DataServis ds = new DataServis();
         ds.duzenle(f);
