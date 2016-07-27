@@ -33,7 +33,7 @@ final class FilmServis
         string action = "/film/ekle";
         Film film;
 
-        if (_id != "")
+        if (_id != "0")
         {
             DataServis ds = new DataServis();
             film = ds.dokuman!Film(_id, "filmler");
@@ -71,7 +71,6 @@ final class FilmServis
         if (dosyaAdi == "") dosyaAdi = req.form["mevcutPoster"];
 
         Bson f = Bson.emptyObject;
-        f["id"] = BsonObjectID.fromString(req.form["id"]);
         f["orjinalAdi"] = req.form["orjinalAdi"];
         f["turkceAdi"] = req.form["turkceAdi"];
         f["yil"] = req.form["yil"];
@@ -84,7 +83,7 @@ final class FilmServis
         DataServis ds = new DataServis();
         ds.duzenle("filmler", f, req.form["id"]);
 
-        redirect("/film/form/" ~ to!string(f["id"]));
+        redirect("/film/form/" ~ req.form["id"]);
     }
 
     @path("/film/sil/:id")
