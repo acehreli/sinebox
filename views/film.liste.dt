@@ -15,11 +15,11 @@ block body
             tbody
                 - foreach (film; filmler)
                     tr
-                        td !{ film.id }
+                        td !{ film._id }
                         td !{ film.turkceAdi }
                         td !{ film.yil }
                         td !{ film.dil }
                         td !{ film.format }
                         td 
-                            a(href="/film/sil/!{ film.id }") Sil |
-                            a(href="/film/form/!{ film.id }") Düzenle
+                            a(href="/film/sil/!{ film._id }") Sil |
+                            a(href="/film/form/!{ film._id }") Düzenle

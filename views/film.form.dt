@@ -5,7 +5,7 @@ block body
         h2.sub-header Film Ekle
 
         form(action="!{action}", method="post", enctype='multipart/form-data')
-            input(type="hidden", name="id", value="!{ film.id }")
+            input(type="hidden", name="id", value="!{ film._id }")
             input(type="hidden", name="mevcutPoster", value="!{ film.poster }")
             .row
                 .col-sm-6.col-lg-6

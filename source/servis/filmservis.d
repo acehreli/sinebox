@@ -11,9 +11,10 @@ import vibe.http.server;
 import vibe.web.web;
 import vibe.core.file;
 import vibe.core.log;
+import vibe.data.bson;
 
 import servis.dataservis;
-import std.stdio;
+
 final class FilmServis
 {
 
@@ -21,7 +22,7 @@ final class FilmServis
     void getListe()
     {
         DataServis ds = new DataServis();
-        Film[] filmler = ds.liste();
+        Film[] filmler = ds.liste!Film("filmler");
 
         render!("film.liste.dt", filmler);
     }
@@ -32,10 +33,10 @@ final class FilmServis
         string action = "/film/ekle";
         Film film;
 
-        if (to!int(_id) > 0)
+        if (_id != "")
         {
             DataServis ds = new DataServis();
-            film = ds.kayit(_id);
+            film = ds.dokuman!Film(_id, "filmler");
             action = "/film/duzenle";
         }
         render!("film.form.dt", action, film);
@@ -47,6 +48,7 @@ final class FilmServis
         string dosyaAdi = posterYukle(req);
 
         Film f;
+		f._id = BsonObjectID.generate();
         f.orjinalAdi = req.form["orjinalAdi"];
         f.turkceAdi = req.form["turkceAdi"];
         f.yil = req.form["yil"];
@@ -57,7 +59,7 @@ final class FilmServis
         f.konu = req.form["konu"];
 
         DataServis ds = new DataServis();
-        ds.ekle(f);
+        ds.ekle!Film(f, "filmler");
 
         redirect("/film/form/0");
     }
@@ -68,34 +70,34 @@ final class FilmServis
         string dosyaAdi = posterYukle(req);
         if (dosyaAdi == "") dosyaAdi = req.form["mevcutPoster"];
 
-        Film f;
-        f.id = to!int(req.form["id"]);
-        f.orjinalAdi = req.form["orjinalAdi"];
-        f.turkceAdi = req.form["turkceAdi"];
-        f.yil = req.form["yil"];
-        f.format = req.form["format"];
-        f.dil = req.form["dil"];
-        f.tur = req.form["tur"];
-        f.poster = dosyaAdi;
-        f.konu = req.form["konu"];
+        Bson f = Bson.emptyObject;
+        f["id"] = BsonObjectID.fromString(req.form["id"]);
+        f["orjinalAdi"] = req.form["orjinalAdi"];
+        f["turkceAdi"] = req.form["turkceAdi"];
+        f["yil"] = req.form["yil"];
+        f["format"] = req.form["format"];
+        f["dil"] = req.form["dil"];
+        f["tur"] = req.form["tur"];
+        f["poster"] = dosyaAdi;
+        f["konu"] = req.form["konu"];
 
         DataServis ds = new DataServis();
-        ds.duzenle(f);
+        ds.duzenle("filmler", f, req.form["id"]);
 
-        redirect("/film/form/" ~ to!string(f.id));
+        redirect("/film/form/" ~ to!string(f["id"]));
     }
 
     @path("/film/sil/:id")
     void getSil(string _id)
     {
         DataServis ds = new DataServis();
-        Film film = ds.kayit(_id);
+        Film film = ds.dokuman!Film(_id, "filmler");
+        /*
         if (ds.sil(_id) != 1)
             logInfo("Kayit silme işleminde hata var");
-
+        */
         // Klasordeki film poster dosyasini sil
         remove("./public/resim/" ~ film.poster);
-        writeln("=========== DELETE A RECORD ================");
         redirect("/film/liste");
     }
 

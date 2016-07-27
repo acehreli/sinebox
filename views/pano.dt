@@ -16,7 +16,7 @@ block body
                         table.table
                             tr
                                 td Film No:
-                                td !{ film.id }
+                                td !{ film._id }
                             tr
                                 td Yapım Yılı:
                                 td !{ film.yil }

@@ -9,7 +9,7 @@ final class HomeServis
     void getPano()
     {
         DataServis ds = new DataServis();
-        Film[] filmler = ds.liste();
+        Film[] filmler = ds.liste!Film("filmler");
 
         render!("pano.dt", filmler);
     }

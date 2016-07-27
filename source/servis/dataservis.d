@@ -1,117 +1,83 @@
 module servis.dataservis;
 
-import d2sqlite3;
-import std.typecons : Nullable;
-
-import std.file;
-import std.json;
-import std.conv;
+import vibe.db.mongo.mongo;
+import vibe.data.bson;
+import vibe.core.log;
 
 public import model.film;
 
 final class DataServis
 {
-    private Database db;
+	private MongoDatabase db;
 
-    public this()
+	public this()
+	{
+        db = connectMongoDB("127.0.0.1").getDatabase("sinebox");
+	}
+
+    public void ekle(T)(T model, string koleksiyon)
     {
-        db = Database("/media/depo/Projeler/d/sinebox/source/data/sinema.sqlite3");
+        model._id = BsonObjectID.generate();
+
+        MongoCollection coll = db[koleksiyon];
+        coll.insert(model);
     }
 
-    public void ekle(Film film)
+    public void duzenle(string koleksiyon, Bson veri, string id)
     {
-        string ekle = "INSERT INTO filmler (orjinal_adi,turkce_adi,yil,format,dil,tur,poster,konu) "~
-                      "VALUES (:orjinal_adi,:turkce_adi,:yil,:format,:dil,:tur,:poster,:konu)";
-
-        Statement stat = db.prepare(ekle);
-        stat.bind(":orjinal_adi", film.orjinalAdi);
-        stat.bind(":turkce_adi", film.turkceAdi);
-        stat.bind(":yil", film.yil);
-        stat.bind(":format", film.format);
-        stat.bind(":dil", film.dil);
-        stat.bind(":tur", film.tur);
-        stat.bind(":poster", film.poster);
-        stat.bind(":konu", film.konu);
-
-        stat.execute();
-        stat.reset();
+        MongoCollection coll = db[koleksiyon];
+        coll.update(["_id": BsonObjectID.fromString(id)], ["$set": veri]);
     }
 
-    public Film[] liste()
+    public T[] liste(T)(string koleksiyon, Bson sirala = Bson.emptyObject)
     {
-        ResultRange filmler = db.execute("SELECT * FROM filmler");
+        MongoCollection model = db[koleksiyon];
+        auto bsonModel = model.find().sort(sirala);
 
-        Film[] liste;
-        foreach (Row film; filmler)
+        T[] modelListe;
+        foreach (bson; bsonModel)
         {
-            Film f;
-            f.id = film["id"].as!int;
-            f.orjinalAdi = film["orjinal_adi"].as!string;
-            f.turkceAdi = film["turkce_adi"].as!string;
-            f.yil = film["yil"].as!string;
-            f.format = film["format"].as!string;
-            f.dil = film["dil"].as!string;
-            f.tur = film["tur"].as!string;
-            f.poster = film["poster"].as!string;
-            f.konu = film["konu"].as!string;
-            liste ~= f;
+            T m = deserializeBson!(T)(bson);
+            modelListe ~= m;
         }
 
-        return liste;
+        return modelListe;
     }
 
-    public Film kayit(string id)
+	public T[] listeLimit(T)(string koleksiyon, int limit)
+	{
+		MongoCollection model = db[koleksiyon];
+		auto bsonModel = model.find().sort(["$natural" : Bson(-1)]).limit(limit);
+
+		T[] modelListe;
+		foreach (bson; bsonModel)
+		{
+			T m = deserializeBson!(T)(bson);
+			modelListe ~= m;
+		}
+
+		return modelListe;
+	}
+
+	public T[] listeArama(T)(string koleksiyon, Bson kriter)
+	{
+		MongoCollection model = db[koleksiyon];
+		auto bsonModel = model.find(kriter);
+
+		T[] modelListe;
+		foreach (bson; bsonModel)
+		{
+			T m = deserializeBson!(T)(bson);
+			modelListe ~= m;
+		}
+
+		return modelListe;
+	}
+
+    public T dokuman(T)(string id, string koleksiyon)
     {
-        ResultRange filmler = db.execute("SELECT * FROM filmler WHERE id = " ~ id);
-
-        Film f;
-        foreach (Row film; filmler)
-        {
-            f.id = film["id"].as!int;
-            f.orjinalAdi = film["orjinal_adi"].as!string;
-            f.turkceAdi = film["turkce_adi"].as!string;
-            f.yil = film["yil"].as!string;
-            f.format = film["format"].as!string;
-            f.dil = film["dil"].as!string;
-            f.tur = film["tur"].as!string;
-            f.poster = film["poster"].as!string;
-            f.konu = film["konu"].as!string;
-        }
-
-        return f;
-    }
-
-    public void duzenle(Film film)
-    {
-        string duzenle = "UPDATE filmler SET orjinal_adi=:orjinal_adi,turkce_adi=:turkce_adi,"~
-                         "yil=:yil,format=:format,dil=:dil,tur=:tur,poster=:poster,konu=:konu "~
-                         "WHERE id = :id";
-
-        Statement stat = db.prepare(duzenle);
-        stat.bind(":orjinal_adi", film.orjinalAdi);
-        stat.bind(":turkce_adi", film.turkceAdi);
-        stat.bind(":yil", film.yil);
-        stat.bind(":format", film.format);
-        stat.bind(":dil", film.dil);
-        stat.bind(":tur", film.tur);
-        stat.bind(":id", film.id);
-        stat.bind(":poster", film.poster);
-        stat.bind(":konu", film.konu);
-
-        stat.execute();
-        stat.reset();
-    }
-
-    public int sil(string filmId)
-    {
-        string sil = "DELETE FROM filmler WHERE id = :id";
-
-        Statement stat = db.prepare(sil);
-        stat.bind(":id", filmId);
-
-        stat.execute();
-        stat.reset();
-
-        return db.totalChanges;
+        MongoCollection coll = db[koleksiyon];
+        Bson bson = coll.findOne(["_id" : BsonObjectID.fromString(id)]);
+        return deserializeBson!T(bson);
     }
 }
