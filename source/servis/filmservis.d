@@ -86,9 +86,13 @@ final class FilmServis
     void getSil(string _id)
     {
         DataServis ds = new DataServis();
+        Film film = ds.kayit(_id);
         if (ds.sil(_id) != 1)
             logInfo("Kayit silme işleminde hata var");
 
+        // Klasordeki film poster dosyasini sil
+        remove("./public/resim/" ~ film.poster);
+        writeln("=========== DELETE A RECORD ================");
         redirect("/film/liste");
     }
 
