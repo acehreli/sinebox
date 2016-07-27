@@ -6,6 +6,7 @@ block body
 
         form(action="!{action}", method="post", enctype='multipart/form-data')
             input(type="hidden", name="id", value="!{ film.id }")
+            input(type="hidden", name="mevcutPoster", value="!{ film.poster }")
             .row
                 .col-sm-6.col-lg-6
                     .form-group
@@ -37,12 +38,15 @@ block body
                         label.control-label(for='tur') Türü:
                         input.form-control(name="tur", placeholder='Türü', type='text', value="!{film.tur}")
 
-
-            h2.sub-header Posterler
-            .row
                 .col-sm-6.col-lg-6
                     .form-group
                         label.control-label(for='poster') Poster:
                         input.form-control(name="poster", type='file')
+
+                .col-sm-12.col-lg-12
+                    .form-group
+                        label.control-label(for='konu') Konu:
+                        textarea.form-control(name="konu", placeholder='Konu', rows="7") !{film.konu}
+
 
             input.btn.btn-primary(value='Kaydet', type="submit")

@@ -46,8 +46,8 @@ html(lang='tr')
         script(src='/js/site.js')
         div(id="footer")
             div(class="container text-center")
-                p  &copy; 2016 Nakil, Doğu Karadeniz. Geliştiren: Zafer Çelenk.
+                p  &copy; 2016 SineBox, Elina Yazılım Hizmetleri. Tüm hakkarı saklıdır.
                     br
-                    a(href="http://www.elinayazilim.com") http://www.dogukaradeniz.com.tr
+                    a(href="http://www.elinayazilim.com") http://www.elinayazilim.com
                     br
-                    | Sürüm: 0.0.1
+                    | Sürüm: 0.3.0

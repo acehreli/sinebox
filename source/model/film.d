@@ -10,7 +10,7 @@ struct Film
     string dil;
     string tur;
     string poster;
-    ubyte[] posterData;
+    string konu;
 }
 
 
