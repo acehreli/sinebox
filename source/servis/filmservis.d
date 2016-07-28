@@ -49,7 +49,7 @@ final class FilmServis
 
         Film f;
 		f._id = BsonObjectID.generate();
-        f.orjinalAdi = req.form["orjinalAdi"];
+        f.orijinalAdi = req.form["orijinalAdi"];
         f.turkceAdi = req.form["turkceAdi"];
         f.yil = req.form["yil"];
         f.format = req.form["format"];
@@ -71,7 +71,7 @@ final class FilmServis
         if (dosyaAdi == "") dosyaAdi = req.form["mevcutPoster"];
 
         Bson f = Bson.emptyObject;
-        f["orjinalAdi"] = req.form["orjinalAdi"];
+        f["orijinalAdi"] = req.form["orijinalAdi"];
         f["turkceAdi"] = req.form["turkceAdi"];
         f["yil"] = req.form["yil"];
         f["format"] = req.form["format"];
@@ -121,7 +121,7 @@ final class FilmServis
         {
             string numara = std.conv.to!string(uniform(1000, 9999));
             string uzanti = extension(resim.filename.toString());
-            string isim = toLower(req.form["orjinalAdi"].replace(" ", "-"));
+            string isim = toLower(req.form["orijinalAdi"].replace(" ", "-"));
 
             Path resimAdresi = Path(resimKlasor ~ "/"~ isim ~ "_" ~ numara ~ uzanti);
             moveFile(resim.tempPath, resimAdresi, true);

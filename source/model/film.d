@@ -5,7 +5,7 @@ import vibe.data.bson;
 struct Film
 {
 	BsonObjectID _id;
-    string orjinalAdi;
+    string orijinalAdi;
     string turkceAdi;
     string yil;
     string format;
