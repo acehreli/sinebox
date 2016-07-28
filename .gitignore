@@ -6,3 +6,5 @@ __dummy.html
 dub.selections.json
 sinebox
 makefile
+public/resim/
+!public/resim/bos.png
