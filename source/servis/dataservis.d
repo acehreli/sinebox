@@ -59,10 +59,13 @@ final class DataServis
 		return modelListe;
 	}
 
-	public T[] listeArama(T)(string koleksiyon, Bson kriter)
+	public T[] listeArama(T)(string koleksiyon, string aranan)
 	{
 		MongoCollection model = db[koleksiyon];
-		auto bsonModel = model.find(kriter);
+		auto bsonModel = model.find(["$or": [ 
+                ["turkceAdi": BsonRegex(aranan, "i")], 
+                ["tur": BsonRegex(aranan,"i")] 
+        ] ]);
 
 		T[] modelListe;
 		foreach (bson; bsonModel)

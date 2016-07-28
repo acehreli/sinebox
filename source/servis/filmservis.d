@@ -4,7 +4,7 @@ import std.file;
 import std.conv;
 import std.path: extension;
 import std.random: uniform;
-import std.string: toLower;
+import std.string: toLower, strip;
 import std.array: replace;
 
 import vibe.http.server;
@@ -98,6 +98,17 @@ final class FilmServis
         // Klasordeki film poster dosyasini sil
         remove("./public/resim/" ~ film.poster);
         redirect("/film/liste");
+    }
+
+    @path("/film/arama")
+    void getFilmArama(HTTPServerRequest req)
+    {
+        string aranan = strip(req.query["arama"]);
+
+		DataServis ds = new DataServis();
+		Film[] filmler = ds.listeArama!(Film)("filmler", aranan);
+
+		render!("pano.dt", filmler);
     }
 
     private string posterYukle(HTTPServerRequest req)

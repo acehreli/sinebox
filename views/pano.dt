@@ -5,7 +5,14 @@ block body
         .container-fluid
             h2.sub-header Sinema Listesi
             p Sistemde kayıtlı filmeleri bu listeden görebilirsiniz.
-            a(href="/video") Video Test
+                a(href="/video") (Video Test Sayfası)
+
+            form(action="/film/arama", method="get")
+                .input-group
+                    input.form-control(type='text', placeholder='Film adı veya türüne göre arayın', name='arama', maxlength="50")
+                    .input-group-btn
+                        button.btn.btn-default(type='submit')
+                            i.glyphicon.glyphicon-search
             - foreach (film; filmler)
                 .row
                     .col-sm-3(style="text-align:center; padding:30px 5px 5px 5px;")
