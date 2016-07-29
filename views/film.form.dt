@@ -15,8 +15,8 @@ block body
 
                 .col-sm-6.col-lg-6
                     .form-group
-                        label.control-label(for='orjinalAdi') Orjinal Adı:
-                        input.form-control(name="orjinalAdi", placeholder='Orjinal Adı', type='text', value="!{film.orjinalAdi}")
+                        label.control-label(for='orijinalAdi') Orijinal Adı:
+                        input.form-control(name="orijinalAdi", placeholder='Orijinal Adı', type='text', value="!{film.orijinalAdi}")
 
                 .col-sm-6.col-lg-6
                     .form-group
